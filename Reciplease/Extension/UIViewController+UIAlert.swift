@@ -11,7 +11,6 @@ extension UIViewController {
     
     //  To alert when the user doesn't have a network.
     //  The service is available or the searched ingredient doesn't exist.
-    
     func showErrorAlertController() {
         DispatchQueue.main.async {
             let alert = UIAlertController(

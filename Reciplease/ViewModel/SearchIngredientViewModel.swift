@@ -10,15 +10,21 @@ import Foundation
 
 final class SearchIngredientViewModel {
     
+    // MARK: - Properties
+    
     var edamamData: EdamamResponse?
-    private let recipeService: RecipeServiceProtocol
-    private(set) var ingredientArray = [String]()
     var successHandler: (() -> Void) = { }
     var failureHandler: (() -> Void) = { }
+    private let recipeService: RecipeServiceProtocol
+    private(set) var ingredientArray = [String]()
+    
+    // MARK: - Init
     
     init(recipeService: RecipeServiceProtocol) {
         self.recipeService = recipeService
     }
+    
+    // MARK: - Methods
     
     //    The ingredient must be formatted and cannot contain the same ingredient twice before being added to the array.
     func formatIngredientArray(ingredient: String) -> Bool {

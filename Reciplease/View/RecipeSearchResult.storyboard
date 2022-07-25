@@ -14,7 +14,7 @@
             <objects>
                 <viewController storyboardIdentifier="RecipeSearchResultViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="vGp-1Q-bQl" customClass="RecipeSearchResultViewController" customModule="Reciplease" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jya-ST-KCQ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search results" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5e4-LC-gWz">
@@ -82,7 +82,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.10000000000000001" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="GHB-Uv-aiY" secondAttribute="trailing" constant="77" id="2Lo-Q7-kun"/>
                                                         <constraint firstAttribute="trailing" secondItem="NEC-TR-0yQ" secondAttribute="trailing" constant="14" id="3Oa-Se-a6W"/>
@@ -119,6 +119,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="vGp-1Q-bQl" id="56T-9K-sTX"/>
+                                    <outlet property="delegate" destination="vGp-1Q-bQl" id="TeZ-00-7Gc"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="v2Q-zw-FyJ"/>

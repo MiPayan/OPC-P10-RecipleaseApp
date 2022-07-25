@@ -1,5 +1,5 @@
 //
-//  RecipeServiceSessionMock.swift
+//  NetworkSessionMock.swift
 //  RecipleaseTests
 //
 //  Created by Mickael PAYAN on 14/06/2022.
@@ -9,13 +9,19 @@ import Foundation
 import Alamofire
 @testable import Reciplease
 
-final class RecipeServiceSessionMock: NetworkProtocol {
+final class NetworkSessionMock: NetworkProtocol {
     
-    private let responseMock: EdamamResponseMock
+    // MARK: - Property
+    
+    let responseMock: EdamamResponseMock
+    
+    // MARK: - Init
     
     init(responseMock: EdamamResponseMock) {
         self.responseMock = responseMock
     }
+    
+    // MARK: - Method
     
     func request(url: URL, completionHandler: @escaping (AFDataResponse<EdamamResponse>) -> Void) {
         let dataResponse = AFDataResponse<EdamamResponse>(

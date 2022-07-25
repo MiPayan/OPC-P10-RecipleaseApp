@@ -8,24 +8,30 @@
 import XCTest
 @testable import Reciplease
 
-class RecipeServiceTests: XCTestCase {
+final class RecipeServiceTests: XCTestCase {
     
-    private var recipeServiceMock: RecipeServiceSessionMock!
+    // MARK: - Properties
+    
+    private var networkSessionMock: NetworkSessionMock!
     private var responseMock: EdamamResponseMock!
+    
+    // MARK: - Test Life Cycle
     
     override func setUpWithError() throws {
         responseMock = EdamamResponseMock()
-        recipeServiceMock = RecipeServiceSessionMock(responseMock: responseMock)
+        networkSessionMock = NetworkSessionMock(responseMock: responseMock)
     }
     
     override func tearDownWithError() throws {
-        recipeServiceMock = nil
+        networkSessionMock = nil
         responseMock = nil
     }
     
+    // MARK: - Methods
+    
     func testGivenServiceIsUnavailable_WhenRequestSearch_ErrorIsThrown() {
         let expectation = expectation(description: "Failure to get data.")
-        let service = RecipeService(session: recipeServiceMock)
+        let service = RecipeService(session: networkSessionMock)
         let query = "Salmon"
         
         responseMock.response = EdamamResponseMock.invalidResponse
@@ -43,7 +49,7 @@ class RecipeServiceTests: XCTestCase {
     
     func testGivenServiceIsAvailable_WhenRequestSearch_ThenProvideResult() {
         let expectation = expectation(description: "Success to get data.")
-        let service = RecipeService(session: recipeServiceMock)
+        let service = RecipeService(session: networkSessionMock)
         let query = "Salmon"
         
         guard let responseMocked = responseMock.make() else { return }

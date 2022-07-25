@@ -14,8 +14,12 @@ enum APIError: Error {
 
 final class SearchIngredientViewModelTests: XCTestCase {
     
+    // MARK: - Properties
+    
     private var searchIngredientViewModel: SearchIngredientViewModel!
     private var recipeServiceMock: RecipeServiceMock!
+    
+    // MARK: - Test Life Cycle
     
     override func setUpWithError() throws {
         recipeServiceMock = RecipeServiceMock()
@@ -25,6 +29,8 @@ final class SearchIngredientViewModelTests: XCTestCase {
     override func tearDownWithError() throws {
         searchIngredientViewModel = nil
     }
+    
+    // MARK: - Methods
     
     func testFailureGetRecipe() {
         let expectation = expectation(description: "Failure to get recipe.")

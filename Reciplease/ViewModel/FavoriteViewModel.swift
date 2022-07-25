@@ -9,8 +9,33 @@ import Foundation
 
 final class FavoriteViewModel {
     
-    private(set) var recipes = Recipes()
+    // MARK: - Properties
+    
+    private let recipePeecker: RecipePeecking
+    private let recipeWriter: RecipeWriting
     private(set) var selectedRecipe: RecipeResponse?
+    var recipes: [Recipes] {
+        recipePeecker.recipes
+    }
+    var recipesCount: Int {
+        recipePeecker.recipes.count
+    }
+    
+    // MARK: - Init
+    
+    init(
+        recipePeecker: RecipePeecking = CoreDataManager.shared,
+        recipeWriter: RecipeWriting = CoreDataManager.shared
+    ) {
+        self.recipePeecker = recipePeecker
+        self.recipeWriter = recipeWriter
+    }
+
+    // MARK: - Methods
+    
+    func deleteRecipe(recipeLabel: String) {
+        recipeWriter.deleteRecipeFromFavorite(recipeLabel)
+    }
     
     func transformStringToIngredientArray(text: String, image: String) -> [IngredientResponse] {
         let textArray = text.components(separatedBy: " - ")
@@ -22,18 +47,15 @@ final class FavoriteViewModel {
             if imageArray.indices.contains(index) {
                 image = imageArray[index]
             }
+            
             let ingredient = IngredientResponse(text: text, image: image)
             ingredients.append(ingredient)
         }
         return ingredients
     }
     
-    func countRecipes() -> Int {
-        return recipes.recipes.count
-    }
-
     func configureTableView(with index: Int) {
-        let recipe = recipes.recipes[index]
+        let recipe = recipePeecker.recipes[index]
         guard let recipeText = recipe.label,
               let image = recipe.image,
               let url = recipe.url,

@@ -8,22 +8,21 @@
 import Foundation
 import Alamofire
 
-protocol RecipeServiceProtocol {
-    func getRecipe(
-        _ query: String,
-        completionHandler: @escaping (Result<EdamamResponse, AFError>) -> Void
-    )
-}
-
 final class RecipeService: RecipeServiceProtocol {
+    
+    // MARK: - Propperties
+    
     private let session: NetworkProtocol
     private let endpoint = "https://api.edamam.com/api/recipes/v2?type=public"
     private let appId = "0b523699"
     private let appKey = "474128c0954d443d6caa1baa02198c93"
     
+    // MARK: - Init
     init(session: NetworkProtocol = NetworkSession()) {
         self.session = session
     }
+    
+    // MARK: - Method
     
     func getRecipe(_ query: String, completionHandler: @escaping (Result<EdamamResponse, AFError>) -> Void) {
         let urlString = "\(endpoint)&q=\(query)&app_id=\(appId)&app_key=\(appKey)"

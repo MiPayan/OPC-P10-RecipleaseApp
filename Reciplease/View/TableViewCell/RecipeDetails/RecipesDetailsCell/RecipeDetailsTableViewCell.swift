@@ -13,6 +13,8 @@ protocol DismissButtonTableViewCellDelegate: AnyObject {
 
 final class RecipeDetailsTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var recipeImageView: UIImageView!
     @IBOutlet private weak var dismissButton: RoundedButtonSetting!
     @IBOutlet private weak var favoriteButton: RoundedButtonSetting!
@@ -21,7 +23,7 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
     @IBOutlet private weak var caloriesLabel: UILabel!
     @IBOutlet private weak var yieldLabel: UILabel!
     @IBOutlet private weak var healthCollectionView: UICollectionView!
-    private let recipes = Recipes()
+    private let recipeDetailsViewModel = RecipeDetailsViewModel()
     private var recipe: RecipeResponse? {
         didSet {
             guard recipe != nil else { return }
@@ -30,10 +32,14 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
     }
     weak var dismissDelegate: DismissButtonTableViewCellDelegate?
     
+    // MARK: - View Life Cycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         healthCollectionView.dataSource = self
     }
+    
+    // MARK: - Methods
     
     func configureCell(recipe: RecipeResponse) {
         guard let recipeImage = recipe.image,
@@ -48,21 +54,26 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
         configureFavoriteButton()
     }
     
-    @IBAction private func didTapFavoriteButton() {
-        guard let recipe = recipe else { return }
-        if recipes.checkIfRecipeIsAlreadySaved(recipe.label) == true {
-            recipes.deleteRecipeFromFavorite(recipe.label)
-        } else {
-            recipes.saveRecipe(recipe)
-        }
-        configureFavoriteButton()
-    }
-    
     func configureFavoriteButton() {
         guard let recipe = recipe else { return }
-        let isRecipeAlreadySaved = recipes.checkIfRecipeIsAlreadySaved(recipe.label)
+        let isRecipeAlreadySaved = recipeDetailsViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label)
         let imageString = isRecipeAlreadySaved ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: imageString), for: .normal)
+    }
+    
+}
+
+// MARK: - IBAction Methods
+
+private extension RecipeDetailsTableViewCell {
+    @IBAction func didTapFavoriteButton() {
+        guard let recipe = recipe else { return }
+        if recipeDetailsViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label) == true {
+            recipeDetailsViewModel.deleteRecipe(with: recipe.label)
+        } else {
+            recipeDetailsViewModel.saveRecipe(with: recipe)
+        }
+        configureFavoriteButton()
     }
     
     @IBAction private func openRecipeInstruction(_ sender: Any) {
@@ -76,6 +87,8 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
         dismissDelegate.dismissViewController()
     }
 }
+
+// MARK: - CollectionViewDataSource
 
 extension RecipeDetailsTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

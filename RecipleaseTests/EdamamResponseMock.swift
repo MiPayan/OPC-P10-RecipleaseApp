@@ -11,10 +11,14 @@ import Alamofire
 
 final class EdamamResponseMock {
     
+    // MARK: - Properties
+    
     var response: HTTPURLResponse?
     var result: Result<EdamamResponse, AFError>!
     static let validResponse = HTTPURLResponse(url: URL(string: "https://www.apple.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
     static let invalidResponse = HTTPURLResponse(url: URL(string: "https://www.apple.com")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
+    
+    // MARK: - Method
     
     func make() -> EdamamResponse? {
         let bundle = Bundle(for: type(of: self))

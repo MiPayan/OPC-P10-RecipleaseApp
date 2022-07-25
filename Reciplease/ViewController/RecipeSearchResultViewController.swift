@@ -9,15 +9,20 @@ import UIKit
 
 final class RecipeSearchResultViewController: UIViewController {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var recipeSearchResultTableView: UITableView!
     private var selectedRecipe: RecipeResponse?
-    var edamamAPIData: EdamamResponse?
+    var edamamResponse: EdamamResponse?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        recipeSearchResultTableView.dataSource = self
-        recipeSearchResultTableView.delegate = self
+    // MARK: - View Life Cycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        recipeSearchResultTableView.reloadData()
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowRecipeDetails", let recipe = selectedRecipe {
@@ -26,21 +31,21 @@ final class RecipeSearchResultViewController: UIViewController {
             recipeDetailsViewController.openBy = .search
         }
     }
-    
-    @IBAction func unwindToRecipeSearchResult(segue: UIStoryboardSegue) {
+}
+
+// MARK: - IBAction Method
+
+extension RecipeSearchResultViewController {
+    @IBAction private func unwindToRecipeSearchResult(segue: UIStoryboardSegue) {
         recipeSearchResultTableView.reloadData()
     }
 }
 
-extension RecipeSearchResultViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedRecipe = edamamAPIData?.hits[indexPath.row].recipe
-        tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "ShowRecipeDetails", sender: self)
-    }
-    
+// MARK: - TableViewDataSource
+
+extension RecipeSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let edamamAPIData = edamamAPIData else { return 0 }
+        guard let edamamAPIData = edamamResponse else { return 0 }
         return edamamAPIData.hits.count
     }
     
@@ -49,8 +54,18 @@ extension RecipeSearchResultViewController: UITableViewDataSource, UITableViewDe
             withIdentifier: "RecipeCell",
             for: indexPath
         ) as? RecipeSearchResultTableViewCell,
-              let recipe = edamamAPIData?.hits[indexPath.row].recipe else { return UITableViewCell() }
+              let recipe = edamamResponse?.hits[indexPath.row].recipe else { return UITableViewCell() }
         cell.configureCell(recipe: recipe)
         return cell
+    }
+}
+
+// MARK: - TableViewDelegate
+
+extension RecipeSearchResultViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedRecipe = edamamResponse?.hits[indexPath.row].recipe
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "ShowRecipeDetails", sender: self)
     }
 }

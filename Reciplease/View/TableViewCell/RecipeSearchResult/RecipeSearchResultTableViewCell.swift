@@ -8,13 +8,18 @@
 import UIKit
 
 final class RecipeSearchResultTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet private weak var recipeImageView: UIImageView!
     @IBOutlet private weak var recipeLabel: UILabel!
     @IBOutlet private weak var ingredientLabel: UILabel!
     @IBOutlet private weak var favoriteButton: RoundedButtonSetting!
     @IBOutlet private weak var detailsLabel: UILabel!
-    private let recipes = Recipes()
+    private let recipeSearchResultViewModel = RecipeSearchResultViewModel()
     private var recipe: RecipeResponse?
+    
+    // MARK: - Methods
     
     func configureCell(recipe: RecipeResponse) {
         guard let recipeImage = recipe.image,
@@ -36,21 +41,19 @@ final class RecipeSearchResultTableViewCell: UITableViewCell {
     }
     
     @IBAction private func didTapFavoriteButton(_ sender: Any) {
-        if let recipe = recipe {
-            if recipes.checkIfRecipeIsAlreadySaved(recipe.label) == true {
-                recipes.deleteRecipeFromFavorite(recipe.label)
-            } else {
-                recipes.saveRecipe(recipe)
-            }
-            configureFavoriteButton()
+        guard let recipe = recipe else { return }
+        if recipeSearchResultViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label) {
+            recipeSearchResultViewModel.deleteRecipe(with: recipe.label)
+        } else {
+            recipeSearchResultViewModel.saveRecipe(with: recipe)
         }
+        configureFavoriteButton()
     }
     
     private func configureFavoriteButton() {
-        if let recipe = recipe {
-            let isRecipeAlreadySaved = recipes.checkIfRecipeIsAlreadySaved(recipe.label)
-            let imageString = isRecipeAlreadySaved ? "heart.fill" : "heart"
-            favoriteButton.setImage(UIImage(systemName: imageString), for: .normal)
-        }
+        guard let recipe = recipe else { return }
+        let isRecipeAlreadySaved = recipeSearchResultViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label)
+        let imageString = isRecipeAlreadySaved ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageString), for: .normal)
     }
 }

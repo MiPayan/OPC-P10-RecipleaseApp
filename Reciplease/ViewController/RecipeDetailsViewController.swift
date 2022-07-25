@@ -9,21 +9,21 @@ import UIKit
 
 final class RecipeDetailsViewController: UIViewController {
     
-    enum OpenBy {
-        case search
-        case favorite
-    }
+    // MARK: - Properties
     
     @IBOutlet private weak var recipeDetailsTableView: UITableView!
     var recipe: RecipeResponse?
     var openBy: OpenBy?
     
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.isModalInPresentation = true
-        recipeDetailsTableView.dataSource = self
     }
 }
+
+// MARK: - TableViewDataSource
 
 extension RecipeDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -38,6 +38,8 @@ extension RecipeDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let recipe = recipe else { return UITableViewCell() }
         
+        // First section.
+        
         if indexPath.row == 0,
            let recipeDetailsCell = recipeDetailsTableView.dequeueReusableCell(
             withIdentifier: "RecipesDetailsCell",
@@ -48,6 +50,8 @@ extension RecipeDetailsViewController: UITableViewDataSource {
             return recipeDetailsCell
         }
         
+        // Second section.
+        
         guard let ingredientCell = recipeDetailsTableView.dequeueReusableCell(
             withIdentifier: "IngredientsCell",
             for: indexPath
@@ -55,11 +59,12 @@ extension RecipeDetailsViewController: UITableViewDataSource {
         let ingredientText = recipe.ingredients[indexPath.row - 1].text
         let imageString = recipe.ingredients[indexPath.row - 1].image ?? ""
         let ingredientImage = URL(string: imageString)
-        
         ingredientCell.configureCell(with: ingredientImage, ingredientText: ingredientText)
         return ingredientCell
     }
 }
+
+// MARK: - Dismiss ViewController
 
 extension RecipeDetailsViewController: DismissButtonTableViewCellDelegate {
     func dismissViewController() {

@@ -8,7 +8,6 @@
 import UIKit
 
 extension CGColor {
-    
     static var randomBorderColor: CGColor {
         return CGColor(
             red: .random(in: 0...1),

@@ -9,11 +9,15 @@ import UIKit
 
 final class SearchIngredientViewController: UIViewController {
     
+    // MARK: - Properties
+    
     @IBOutlet private weak var ingredientTextField: UITextField!
     @IBOutlet private weak var ingredientCollectionView: UICollectionView!
     @IBOutlet private weak var errorLabel: UILabel!
     @IBOutlet private weak var searchButton: SearchButtonSetting!
     private let searchIngredientViewModel = SearchIngredientViewModel(recipeService: RecipeService())
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,44 +25,21 @@ final class SearchIngredientViewController: UIViewController {
         hideKeyboardWhenTapScreen()
     }
     
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowRecipes" {
             if let recipeSearchResultViewController = segue.destination as? RecipeSearchResultViewController,
                let recipesData = searchIngredientViewModel.edamamData {
-                recipeSearchResultViewController.edamamAPIData = recipesData
+                recipeSearchResultViewController.edamamResponse = recipesData
             }
         }
     }
-    
-    //    If the ingredient table is empty, you can press the search button. Otherwise, if it contains something, the search button can be used.
-    private func disableSearchButton() {
-        searchButton.isEnabled = !searchIngredientViewModel.ingredientArray.isEmpty
-    }
 }
 
+// MARK: - ViewController Methods
+
 private extension SearchIngredientViewController {
-    @IBAction func addIngredientInSearchList(_ sender: Any) {
-        hideError()
-        guard let ingredient = ingredientTextField.text?.capitalized else { return }
-        if searchIngredientViewModel.formatIngredientArray(ingredient: ingredient) {
-            ingredientCollectionView.reloadData()
-            disableSearchButton()
-        } else {
-            displayError()
-        }
-        ingredientTextField.text?.removeAll()
-    }
-    
-    @IBAction func removeAllIngredients(_ sender: Any) {
-        searchIngredientViewModel.removeAllIngredients()
-        ingredientCollectionView.reloadData()
-        searchButton.isEnabled = false
-    }
-    
-    @IBAction func didTapSearchButton(_ sender: Any) {
-        searchIngredientViewModel.getRecipe()
-    }
-    
     func configureViewModel() {
         searchIngredientViewModel.successHandler = {
             DispatchQueue.main.async {
@@ -68,6 +49,11 @@ private extension SearchIngredientViewController {
         searchIngredientViewModel.failureHandler = {
             self.showErrorAlertController()
         }
+    }
+    
+    //    If the ingredient table is empty, you can press the search button. Otherwise, if it contains something, the search button can be used.
+    func disableSearchButton() {
+        searchButton.isEnabled = !searchIngredientViewModel.ingredientArray.isEmpty
     }
     
     func displayError() {
@@ -93,7 +79,34 @@ private extension SearchIngredientViewController {
     }
 }
 
-// MARK: CollectionView data source
+// MARK: - IBAction Methods
+
+private extension SearchIngredientViewController {
+    @IBAction func addIngredientInSearchList(_ sender: Any) {
+        hideError()
+        guard let ingredient = ingredientTextField.text?.capitalized else { return }
+        if searchIngredientViewModel.formatIngredientArray(ingredient: ingredient) {
+            ingredientCollectionView.reloadData()
+            disableSearchButton()
+        } else {
+            displayError()
+        }
+        ingredientTextField.text?.removeAll()
+    }
+    
+    @IBAction func removeAllIngredients(_ sender: Any) {
+        searchIngredientViewModel.removeAllIngredients()
+        ingredientCollectionView.reloadData()
+        searchButton.isEnabled = false
+    }
+    
+    @IBAction func didTapSearchButton(_ sender: Any) {
+        searchIngredientViewModel.getRecipe()
+    }
+}
+
+// MARK: CollectionViewDataSource
+
 extension SearchIngredientViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         searchIngredientViewModel.countIngredient()
@@ -112,6 +125,7 @@ extension SearchIngredientViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - CollectionView Delegate
 extension SearchIngredientViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchIngredientViewModel.removeIngredient(at: indexPath.row)

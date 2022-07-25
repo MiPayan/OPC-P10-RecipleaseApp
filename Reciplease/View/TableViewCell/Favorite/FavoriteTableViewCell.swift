@@ -9,11 +9,16 @@ import Foundation
 import UIKit
 
 final class FavoriteTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
     @IBOutlet private weak var recipeImageView: UIImageView!
     @IBOutlet private weak var recipeLabel: UILabel!
     @IBOutlet private weak var ingredientLabel: UILabel!
     @IBOutlet private weak var detailsLabel: UILabel!
     var deleteHandler: (() -> Void) = {}
+    
+    // MARK: - Method
     
     func configureCell(_ recipe: Recipes) {
         guard let imageString = recipe.image,
@@ -29,6 +34,8 @@ final class FavoriteTableViewCell: UITableViewCell {
         ingredientLabel.text = recipe.ingredient
         detailsLabel.text = detailsText
     }
+    
+    // MARK: - IBAction Method
     
     @IBAction func didTapFavoriteButton(_ sender: Any) {
         deleteHandler()

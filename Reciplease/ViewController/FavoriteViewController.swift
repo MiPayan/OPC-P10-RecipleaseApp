@@ -6,23 +6,23 @@
 //
 
 import UIKit
-import CoreData
 
 final class FavoriteViewController: UIViewController {
+    
+    // MARK: - Properties
+    
     @IBOutlet private weak var favoriteTableView: UITableView!
     @IBOutlet private weak var noFavoriteStackView: UIStackView!
     private var favoriteViewModel = FavoriteViewModel()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        favoriteTableView.dataSource = self
-        favoriteTableView.delegate = self
-    }
+    // MARK: - View Life Cycle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         favoriteTableView.reloadData()
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ReturnToRecipeDetails", let recipe = favoriteViewModel.selectedRecipe {
@@ -32,15 +32,19 @@ final class FavoriteViewController: UIViewController {
         }
     }
     
+    // MARK: - IBAction method
+    
     @IBAction func unwindToFavorite(segue: UIStoryboardSegue) {
         favoriteTableView.reloadData()
     }
 }
 
+// MARK: - TableViewDataSource
+
 extension FavoriteViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        noFavoriteStackView.isHidden = !favoriteViewModel.recipes.recipes.isEmpty
-        return favoriteViewModel.countRecipes()
+        noFavoriteStackView.isHidden = favoriteViewModel.recipesCount != 0
+        return favoriteViewModel.recipesCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,21 +53,19 @@ extension FavoriteViewController: UITableViewDataSource {
             for: indexPath
         ) as? FavoriteTableViewCell else { return UITableViewCell() }
         
-        let recipe = favoriteViewModel.recipes.recipes[indexPath.row]
+        let recipe = favoriteViewModel.recipes[indexPath.row]
         cell.configureCell(recipe)
         cell.deleteHandler = { [weak self] in
-            guard let self = self else { return }
-            AppDelegate.viewContext.delete(recipe)
+            guard let self = self,
+                  let recipeLabel = recipe.label else { return }
+            self.favoriteViewModel.deleteRecipe(recipeLabel: recipeLabel)
             self.favoriteTableView.reloadData()
-            do {
-                try AppDelegate.viewContext.save()
-            } catch let error as NSError {
-                print(error)
-            }
         }
         return cell
     }
 }
+
+// MARK: - TableViewDelegate
 
 extension FavoriteViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
