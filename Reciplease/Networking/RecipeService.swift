@@ -18,6 +18,7 @@ final class RecipeService: RecipeServiceProtocol {
     private let appKey = "474128c0954d443d6caa1baa02198c93"
     
     // MARK: - Init
+    
     init(session: NetworkProtocol = NetworkSession()) {
         self.session = session
     }
@@ -25,9 +26,7 @@ final class RecipeService: RecipeServiceProtocol {
     // MARK: - Method
     
     func getRecipe(_ query: String, completionHandler: @escaping (Result<EdamamResponse, AFError>) -> Void) {
-        let urlString = "\(endpoint)&q=\(query)&app_id=\(appId)&app_key=\(appKey)"
-        guard let url = URL(string: urlString) else { return }
-        session.request(url: url) { response in
+        session.request(urlString: "\(endpoint)&q=\(query)&app_id=\(appId)&app_key=\(appKey)") { response in
             switch response.result {
             case .success(let sucess):
                 completionHandler(.success(sucess))

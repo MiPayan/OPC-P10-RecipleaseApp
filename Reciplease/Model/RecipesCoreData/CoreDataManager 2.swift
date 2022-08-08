@@ -39,9 +39,9 @@ extension CoreDataManager: RecipePeecking {
         return recipes
     }
     
-    func checkIfRecipeIsAlreadySaved(_ recipeLabel: String) -> Bool {
+    func checkIfRecipeIsAlreadySaved(_ label: String) -> Bool {
         let fetchRequest: NSFetchRequest<Recipes> = NSFetchRequest(entityName: "Recipes")
-        fetchRequest.predicate = NSPredicate(format: "label == %@", recipeLabel)
+        fetchRequest.predicate = NSPredicate(format: "label == %@", label)
         do {
             let recipes = try managedContext.fetch(fetchRequest)
             return !recipes.isEmpty
@@ -49,6 +49,7 @@ extension CoreDataManager: RecipePeecking {
             return false
         }
     }
+    
 }
 
 // MARK: - RecipeWriter

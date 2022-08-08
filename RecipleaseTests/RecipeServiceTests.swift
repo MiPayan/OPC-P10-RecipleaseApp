@@ -60,6 +60,8 @@ final class RecipeServiceTests: XCTestCase {
         
         service.getRecipe(query) { result in
             guard case .success(let recipe) = result else { return }
+            guard let recipeLabel = recipe.hits.first?.recipe.label else { return }
+            XCTAssertEqual(recipeLabel, "Salmon Rillettes/Salmon Spread")
             expectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)

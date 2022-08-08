@@ -20,7 +20,7 @@ final class SearchIngredientViewModel {
     
     // MARK: - Init
     
-    init(recipeService: RecipeServiceProtocol) {
+    init(recipeService: RecipeServiceProtocol = RecipeService()) {
         self.recipeService = recipeService
     }
     
@@ -28,16 +28,16 @@ final class SearchIngredientViewModel {
     
     //    The ingredient must be formatted and cannot contain the same ingredient twice before being added to the array.
     func formatIngredientArray(ingredient: String) -> Bool {
-        if !ingredient.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-           !ingredientArray.contains(ingredient) {
-            ingredientArray.append(ingredient.trimmingCharacters(in: .whitespacesAndNewlines))
+        let ingredient = ingredient.condenseWhitespace()
+        if !ingredientArray.contains(ingredient) {
+            ingredientArray.append(ingredient)
             return true
         }
         return false
     }
     
     func countIngredient() -> Int {
-        return ingredientArray.count
+        ingredientArray.count
     }
     
     func removeIngredient(at index: Int) {

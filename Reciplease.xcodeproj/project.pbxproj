@@ -69,6 +69,7 @@
 		37F7632826E0DB3700F80AB4 /* RandomBorderColor+CGColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F7632726E0DB3700F80AB4 /* RandomBorderColor+CGColor.swift */; };
 		37FBD08326DFB36000B7AE1F /* Double+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FBD08226DFB35F00B7AE1F /* Double+String.swift */; };
 		37FBD08926DFC13500B7AE1F /* HealthInformationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FBD08826DFC13500B7AE1F /* HealthInformationCollectionViewCell.swift */; };
+		37FC6B19289D5B7A002D92CA /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FC6B18289D5B7A002D92CA /* String.swift */; };
 		37FEEED3286C4A2100CF3179 /* CoreDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FEEED2286C4A2000CF3179 /* CoreDataManagerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,6 +148,7 @@
 		37F7632726E0DB3700F80AB4 /* RandomBorderColor+CGColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomBorderColor+CGColor.swift"; sourceTree = "<group>"; };
 		37FBD08226DFB35F00B7AE1F /* Double+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+String.swift"; sourceTree = "<group>"; };
 		37FBD08826DFC13500B7AE1F /* HealthInformationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInformationCollectionViewCell.swift; sourceTree = "<group>"; };
+		37FC6B18289D5B7A002D92CA /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		37FEEED2286C4A2000CF3179 /* CoreDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -347,15 +349,15 @@
 				37BBBC7D26B1B58B00497DE8 /* SettingFiles */,
 				37F547DB26D03256005A8CF3 /* Extension */,
 				378065A226BBF24F0087C9CC /* Networking */,
-				37E10EF02783203800B2534D /* ViewModel */,
 				37BBBC7C26B1B58500497DE8 /* Model */,
 				37BBBC7B26B1B58000497DE8 /* View */,
-				37BBBC7A26B1B57600497DE8 /* ViewController */,
+				37E10EF02783203800B2534D /* ViewModel */,
+				37BBBC7A26B1B57600497DE8 /* Controller */,
 			);
 			path = Reciplease;
 			sourceTree = "<group>";
 		};
-		37BBBC7A26B1B57600497DE8 /* ViewController */ = {
+		37BBBC7A26B1B57600497DE8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				3798B2B026CBE82D00A9BE1A /* SearchIngredientViewController.swift */,
@@ -364,7 +366,7 @@
 				37AC239426D8D2620058F834 /* FavoriteViewController.swift */,
 				37A023192869ACF500DEFF86 /* OpenBy.swift */,
 			);
-			path = ViewController;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		37BBBC7B26B1B58000497DE8 /* View */ = {
@@ -453,6 +455,7 @@
 				37BE69E626D3D136002EA74B /* LoadURLImageView.swift */,
 				37FBD08226DFB35F00B7AE1F /* Double+String.swift */,
 				37F7632726E0DB3700F80AB4 /* RandomBorderColor+CGColor.swift */,
+				37FC6B18289D5B7A002D92CA /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				37BBBC4B26B1B4AE00497DE8 /* AppDelegate.swift in Sources */,
 				377ABEB827552453000C6F1A /* ViewSettingsRecipeDetailsView.swift in Sources */,
 				372D11B0286B2D570062BA88 /* RecipeDetailsViewModel.swift in Sources */,
+				37FC6B19289D5B7A002D92CA /* String.swift in Sources */,
 				37BBBC4D26B1B4AE00497DE8 /* SceneDelegate.swift in Sources */,
 				3779FC8C28587CB900D87091 /* CoreDataManager.swift in Sources */,
 				37E10EF22783206C00B2534D /* SearchIngredientViewModel.swift in Sources */,

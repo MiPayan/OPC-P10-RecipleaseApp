@@ -37,7 +37,7 @@ final class FavoriteViewModel {
         recipeWriter.deleteRecipeFromFavorite(recipeLabel)
     }
     
-    func transformStringToIngredientArray(text: String, image: String) -> [IngredientResponse] {
+    private func transformStringToIngredientArray(text: String, image: String) -> [IngredientResponse] {
         let textArray = text.components(separatedBy: " - ")
         let imageArray = image.components(separatedBy: " - ")
         var ingredients: [IngredientResponse] = []

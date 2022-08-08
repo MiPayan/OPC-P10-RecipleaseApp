@@ -19,6 +19,8 @@ open class CoreDataStack {
         self.modelName = modelName
     }
     
+    // MARK: - Computed Properties
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores { _, error in
@@ -32,6 +34,8 @@ open class CoreDataStack {
     lazy var managedContext: NSManagedObjectContext = {
         return persistentContainer.viewContext
     }()
+    
+    // MARK: - Methods
     
     func saveContext() {
         if managedContext.hasChanges {

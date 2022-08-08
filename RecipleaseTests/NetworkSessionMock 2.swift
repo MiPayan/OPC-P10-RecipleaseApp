@@ -23,7 +23,7 @@ final class NetworkSessionMock: NetworkProtocol {
     
     // MARK: - Method
     
-    func request(urlString: String, completionHandler: @escaping (AFDataResponse<EdamamResponse>) -> Void) {
+    func request(url: URL, completionHandler: @escaping (AFDataResponse<EdamamResponse>) -> Void) {
         let dataResponse = AFDataResponse<EdamamResponse>(
             request: nil,
             response: responseMock.response,

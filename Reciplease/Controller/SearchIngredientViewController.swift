@@ -15,7 +15,7 @@ final class SearchIngredientViewController: UIViewController {
     @IBOutlet private weak var ingredientCollectionView: UICollectionView!
     @IBOutlet private weak var errorLabel: UILabel!
     @IBOutlet private weak var searchButton: SearchButtonSetting!
-    private let searchIngredientViewModel = SearchIngredientViewModel(recipeService: RecipeService())
+    private let searchIngredientViewModel = SearchIngredientViewModel()
     
     // MARK: - View Life Cycle
     
@@ -52,7 +52,7 @@ private extension SearchIngredientViewController {
     }
     
     //    If the ingredient table is empty, you can press the search button. Otherwise, if it contains something, the search button can be used.
-    func disableSearchButton() {
+    func isSearchButtonEnabled() {
         searchButton.isEnabled = !searchIngredientViewModel.ingredientArray.isEmpty
     }
     
@@ -84,10 +84,10 @@ private extension SearchIngredientViewController {
 private extension SearchIngredientViewController {
     @IBAction func addIngredientInSearchList(_ sender: Any) {
         hideError()
-        guard let ingredient = ingredientTextField.text?.capitalized else { return }
+        guard let ingredient = ingredientTextField.text?.capitalizingFirstLetter() else { return }
         if searchIngredientViewModel.formatIngredientArray(ingredient: ingredient) {
             ingredientCollectionView.reloadData()
-            disableSearchButton()
+            isSearchButtonEnabled()
         } else {
             displayError()
         }
@@ -97,7 +97,7 @@ private extension SearchIngredientViewController {
     @IBAction func removeAllIngredients(_ sender: Any) {
         searchIngredientViewModel.removeAllIngredients()
         ingredientCollectionView.reloadData()
-        searchButton.isEnabled = false
+        isSearchButtonEnabled()
     }
     
     @IBAction func didTapSearchButton(_ sender: Any) {
@@ -129,7 +129,7 @@ extension SearchIngredientViewController: UICollectionViewDataSource {
 extension SearchIngredientViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchIngredientViewModel.removeIngredient(at: indexPath.row)
-        disableSearchButton()
+        isSearchButtonEnabled()
         ingredientCollectionView.reloadData()
     }
 }

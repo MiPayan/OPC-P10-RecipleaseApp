@@ -9,5 +9,5 @@ import Foundation
 import Alamofire
 
 protocol NetworkProtocol {
-    func request(urlString: String, completionHandler: @escaping(AFDataResponse<EdamamResponse>) -> Void)
+    func request(url: URL, completionHandler: @escaping(AFDataResponse<EdamamResponse>) -> Void)
 }

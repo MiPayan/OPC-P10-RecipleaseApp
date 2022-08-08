@@ -74,31 +74,41 @@ final class SearchIngredientViewModelTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testIngredientArrayIsEmpty_WhenAddIngredientWhitoutWhiteSpace_ThenIngredientArrayContainsIngredient() {
-        if searchIngredientViewModel.formatIngredientArray(ingredient: "Apple") {
-            XCTAssertTrue(searchIngredientViewModel.ingredientArray.contains("Apple"))
-        }
-    }
-        
-    func testArrayIsEmpty_WhenNoIngredientAdded_ThenArrayRemainingEmpty() {
-        if !searchIngredientViewModel.formatIngredientArray(ingredient: "") {
-            XCTAssertTrue(searchIngredientViewModel.ingredientArray.isEmpty)
-        }
+    func testFormatAnIngredientWithoutSpaceWhenItIsAddedWithSpace() {
+        let ingredient = " Apple "
+        let containsAnIngredient = searchIngredientViewModel.formatIngredientArray(ingredient: ingredient)
+        let ingredientArray = searchIngredientViewModel.ingredientArray
+        XCTAssertEqual(containsAnIngredient, true)
+        XCTAssertEqual(ingredient, " Apple ")
+        XCTAssertEqual(ingredientArray, ["Apple"])
     }
     
-    func testArrayContainsAnIngredient_WhenAllIngredientsAreRemoved_ThenIngredientArrayIsEmpty() {
-        if searchIngredientViewModel.formatIngredientArray(ingredient: "Banana") {
-            XCTAssertTrue(searchIngredientViewModel.ingredientArray.contains("Banana"))
-        }
+    func testRemoveAllIngredient() {
+        let ingredient = "Chocolate"
+        let containsAnIngredient = searchIngredientViewModel.formatIngredientArray(ingredient: ingredient)
         searchIngredientViewModel.removeAllIngredients()
-        XCTAssertTrue(searchIngredientViewModel.ingredientArray.isEmpty)
+        XCTAssertEqual(ingredient, "Chocolate")
+        XCTAssertEqual(containsAnIngredient, true)
+        XCTAssertEqual(searchIngredientViewModel.ingredientArray, [])
     }
     
-    func testArrayContainsAnIngredient_WhenIsRemoveAtAnIndex_ThenIngredientArrayIsEmpty() {
-        if searchIngredientViewModel.formatIngredientArray(ingredient: "Pear") {
-            XCTAssertTrue(searchIngredientViewModel.ingredientArray.contains("Pear"))
-        }
-        searchIngredientViewModel.removeIngredient(at: 0)
-        XCTAssertTrue(searchIngredientViewModel.ingredientArray.isEmpty)
+    func testRemoveIngredientAtIndex() {
+        let index = 0
+        let ingredient = "Banana"
+        let containsAnIngredient = searchIngredientViewModel.formatIngredientArray(ingredient: ingredient)
+        searchIngredientViewModel.removeIngredient(at: index)
+        XCTAssertEqual(ingredient, "Banana")
+        XCTAssertEqual(containsAnIngredient, true)
+        XCTAssertEqual(searchIngredientViewModel.ingredientArray, [])
+    }
+    
+    func testArrayAlreadyContainsThisIngredient() {
+        let ingredient = "Mango"
+        let containsAnIngredient = searchIngredientViewModel.formatIngredientArray(ingredient: ingredient)
+        let containsTheSameIngredient = searchIngredientViewModel.formatIngredientArray(ingredient: ingredient)
+        XCTAssertEqual(ingredient, "Mango")
+        XCTAssertEqual(containsAnIngredient, true)
+        XCTAssertEqual(containsTheSameIngredient, false)
+        XCTAssertEqual(searchIngredientViewModel.ingredientArray, ["Mango"])
     }
 }
