@@ -84,7 +84,7 @@ private extension SearchIngredientViewController {
 private extension SearchIngredientViewController {
     @IBAction func addIngredientInSearchList(_ sender: Any) {
         hideError()
-        guard let ingredient = ingredientTextField.text?.capitalizingFirstLetter() else { return }
+        guard let ingredient = ingredientTextField.text else { return }
         if searchIngredientViewModel.formatIngredientArray(ingredient: ingredient) {
             ingredientCollectionView.reloadData()
             isSearchButtonEnabled()

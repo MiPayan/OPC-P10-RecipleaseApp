@@ -197,9 +197,9 @@
 		372D11B5286B436C0062BA88 /* RecipesCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				3779FC8B28587CB900D87091 /* CoreDataStack.swift */,
 				372D11B3286B435E0062BA88 /* CoreDataProtocols.swift */,
 				3779FC8A28587CB800D87091 /* CoreDataManager.swift */,
-				3779FC8B28587CB900D87091 /* CoreDataStack.swift */,
 				3779FC872858795900D87091 /* Reciplease.xcdatamodeld */,
 			);
 			path = RecipesCoreData;

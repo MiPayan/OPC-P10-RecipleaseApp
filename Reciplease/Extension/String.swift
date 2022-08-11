@@ -8,16 +8,12 @@
 import Foundation
 
 extension String {
-    func condenseWhitespace() -> String {
+    func condenseWhitespace() -> Self {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
     }
     
-    func capitalizingFirstLetter() -> String {
-      return prefix(1).uppercased() + self.lowercased().dropFirst()
-    }
-
-    mutating func capitalizeFirstLetter() {
-      self = self.capitalizingFirstLetter()
+    func withCapitalizeFirstLetter() -> Self {
+      prefix(1).uppercased() + self.lowercased().dropFirst()
     }
 }

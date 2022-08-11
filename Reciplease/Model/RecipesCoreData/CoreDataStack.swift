@@ -30,7 +30,7 @@ open class CoreDataStack {
     }()
     
     lazy var managedContext: NSManagedObjectContext = {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }()
     
     func saveContext() {

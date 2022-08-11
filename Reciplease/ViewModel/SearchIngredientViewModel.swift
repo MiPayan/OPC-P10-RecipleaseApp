@@ -28,8 +28,8 @@ final class SearchIngredientViewModel {
     
     //    The ingredient must be formatted and cannot contain the same ingredient twice before being added to the array.
     func formatIngredientArray(ingredient: String) -> Bool {
-        let ingredient = ingredient.condenseWhitespace()
-        if !ingredientArray.contains(ingredient) {
+        let ingredient = ingredient.condenseWhitespace().withCapitalizeFirstLetter()
+        if !ingredientArray.contains(ingredient), !ingredient.isEmpty {
             ingredientArray.append(ingredient)
             return true
         }
