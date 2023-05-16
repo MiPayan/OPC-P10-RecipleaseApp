@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol DismissButtonTableViewCellDelegate: AnyObject {
-    func dismissViewController()
-}
-
 final class RecipeDetailsTableViewCell: UITableViewCell {
     
     // MARK: - Properties
@@ -23,10 +19,8 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
     @IBOutlet private weak var caloriesLabel: UILabel!
     @IBOutlet private weak var yieldLabel: UILabel!
     @IBOutlet private weak var healthCollectionView: UICollectionView!
-    private let recipeDetailsViewModel = RecipeDetailsViewModel()
-    private var recipe: RecipeResponse? {
+    private var viewModel: RecipeDetailsTableViewCellViewModel? {
         didSet {
-            guard recipe != nil else { return }
             healthCollectionView.reloadData()
         }
     }
@@ -41,23 +35,22 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    func configureCell(recipe: RecipeResponse) {
-        guard let recipeImage = recipe.image,
-              let urlString = URL(string: recipeImage) else { return }
-        recipeImageView.loadImage(url: urlString)
+    func configureCell(with viewModel: RecipeDetailsTableViewCellViewModel) {
+        self.viewModel = viewModel
+        if let url = viewModel.recipeImageURL{
+            recipeImageView.loadImage(url: url)
+        }
         recipeImageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        recipeLabel.text = recipe.label
-        totalTimeLabel.text = String(recipe.totalTime) + " min"
-        caloriesLabel.text = String(recipe.calories.toTruncatedString()) + " kcal"
-        yieldLabel.text = String(recipe.yield) + " pers."
-        self.recipe = recipe
+        recipeLabel.text = viewModel.recipeText
+        totalTimeLabel.text = viewModel.totalTimeText
+        caloriesLabel.text = viewModel.caloriesText
+        yieldLabel.text = viewModel.yieldText
         configureFavoriteButton()
     }
     
-    func configureFavoriteButton() {
-        guard let recipe = recipe else { return }
-        let isRecipeAlreadySaved = recipeDetailsViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label)
-        let imageString = isRecipeAlreadySaved ? "heart.fill" : "heart"
+    private func configureFavoriteButton() {
+        guard let viewModel else { return }
+        let imageString = viewModel.checkIfRecipeIsAlreadySaved ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: imageString), for: .normal)
     }
     
@@ -67,19 +60,15 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
 
 private extension RecipeDetailsTableViewCell {
     @IBAction func didTapFavoriteButton() {
-        guard let recipe = recipe else { return }
-        if recipeDetailsViewModel.checkIfRecipeIsAlreadySaved(with: recipe.label) == true {
-            recipeDetailsViewModel.deleteRecipe(with: recipe.label)
-        } else {
-            recipeDetailsViewModel.saveRecipe(with: recipe)
-        }
+        guard let viewModel else { return }
+        viewModel.checkIfRecipeIsAlreadySaved ? viewModel.deleteRecipe : viewModel.saveRecipe
         configureFavoriteButton()
     }
     
     @IBAction private func openRecipeInstruction(_ sender: Any) {
-        guard let recipe = recipe,
-              let url = URL(string: recipe.url) else { return }
-        UIApplication.shared.open(url)
+        if let url = viewModel?.urlToRecipePreparation {
+            UIApplication.shared.open(url)
+        }
     }
     
     @IBAction func didTapDismissButton(_ sender: Any) {
@@ -92,8 +81,8 @@ private extension RecipeDetailsTableViewCell {
 
 extension RecipeDetailsTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let recipe = recipe else { return 1 }
-        return recipe.healthLabels.count
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.healthLabelsCount
     }
     
     func collectionView(
@@ -104,9 +93,7 @@ extension RecipeDetailsTableViewCell: UICollectionViewDataSource {
             withReuseIdentifier: "HealthCollectionCell",
             for: indexPath
         ) as? HealthInformationCollectionViewCell,
-              let recipe = recipe else { return UICollectionViewCell() }
-        
-        let healthText = recipe.healthLabels[indexPath.row]
+              let healthText = viewModel?.makeHealthText(at: indexPath.row) else { return UICollectionViewCell() }
         cell.configureText(with: healthText)
         return cell
     }

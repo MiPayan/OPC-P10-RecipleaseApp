@@ -1,5 +1,5 @@
 //
-//  IngredientCellCollectionViewCell.swift
+//  SearchIngredientCollectionViewCell.swift
 //  Reciplease
 //
 //  Created by Mickael PAYAN on 17/08/2021.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class IngredientCollectionViewCell: UICollectionViewCell {
+final class SearchIngredientCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var ingredientTextField: TextFieldSettingSearchView!
 

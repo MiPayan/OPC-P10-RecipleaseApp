@@ -12,6 +12,7 @@ final class RecipeDetailsViewController: UIViewController {
     // MARK: - Properties
     
     @IBOutlet private weak var recipeDetailsTableView: UITableView!
+    let recipeDetailsViewModel = RecipeDetailsViewModel()
     var recipe: RecipeResponse?
     var openBy: OpenBy?
     
@@ -27,7 +28,7 @@ final class RecipeDetailsViewController: UIViewController {
 
 extension RecipeDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return recipeDetailsViewModel.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,8 +46,9 @@ extension RecipeDetailsViewController: UITableViewDataSource {
             withIdentifier: "RecipesDetailsCell",
             for: indexPath
            ) as? RecipeDetailsTableViewCell {
+            let recipeDetailsTableViewCellViewModel = RecipeDetailsTableViewCellViewModel(recipeResponse: recipeDetailsViewModel.recipeResponse)
             recipeDetailsCell.dismissDelegate = self
-            recipeDetailsCell.configureCell(recipe: recipe)
+            recipeDetailsCell.configureCell(with: recipeDetailsTableViewCellViewModel)
             return recipeDetailsCell
         }
         

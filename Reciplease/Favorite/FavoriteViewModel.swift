@@ -14,6 +14,7 @@ final class FavoriteViewModel {
     private let recipePeecker: RecipePeecking
     private let recipeWriter: RecipeWriting
     private(set) var selectedRecipe: RecipeResponse?
+    
     var recipes: [Recipes] {
         recipePeecker.recipes
     }
@@ -30,7 +31,7 @@ final class FavoriteViewModel {
         self.recipePeecker = recipePeecker
         self.recipeWriter = recipeWriter
     }
-
+    
     // MARK: - Methods
     
     func deleteRecipe(recipeLabel: String) {
@@ -67,7 +68,10 @@ final class FavoriteViewModel {
               let calorie = recipe.calorie,
               let doubleCalories = Double(calorie),
               let totalTime = recipe.totalTime,
-              let intTotalTime = Int(totalTime) else { return }
+              let intTotalTime = Int(totalTime)
+        else {
+            return
+        }
         
         selectedRecipe = RecipeResponse(
             label: recipeText,

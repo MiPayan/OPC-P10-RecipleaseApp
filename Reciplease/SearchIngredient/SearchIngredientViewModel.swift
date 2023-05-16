@@ -12,7 +12,7 @@ final class SearchIngredientViewModel {
     
     // MARK: - Properties
     
-    var edamamData: EdamamResponse?
+    private(set) var edamamData: EdamamResponse?
     var successHandler: (() -> Void) = { }
     var failureHandler: (() -> Void) = { }
     private let recipeService: RecipeServiceProtocol
@@ -26,6 +26,10 @@ final class SearchIngredientViewModel {
     
     // MARK: - Methods
     
+    var countIngredient: Int {
+        ingredientArray.count
+    }
+    
     //    The ingredient must be formatted and cannot contain the same ingredient twice before being added to the array.
     func formatIngredientArray(ingredient: String) -> Bool {
         let ingredient = ingredient.condenseWhitespace().withCapitalizeFirstLetter()
@@ -34,10 +38,6 @@ final class SearchIngredientViewModel {
             return true
         }
         return false
-    }
-    
-    func countIngredient() -> Int {
-        ingredientArray.count
     }
     
     func removeIngredient(at index: Int) {

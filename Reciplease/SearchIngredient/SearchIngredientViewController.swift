@@ -31,7 +31,7 @@ final class SearchIngredientViewController: UIViewController {
         if segue.identifier == "ShowRecipes" {
             if let recipeSearchResultViewController = segue.destination as? RecipeSearchResultViewController,
                let recipesData = searchIngredientViewModel.edamamData {
-                recipeSearchResultViewController.edamamResponse = recipesData
+                recipeSearchResultViewController.recipeSearchResultViewModel.edamamResponse = recipesData
             }
         }
     }
@@ -109,7 +109,7 @@ private extension SearchIngredientViewController {
 
 extension SearchIngredientViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        searchIngredientViewModel.countIngredient()
+        searchIngredientViewModel.countIngredient
     }
     
     func collectionView(
@@ -119,7 +119,7 @@ extension SearchIngredientViewController: UICollectionViewDataSource {
         guard let cell = ingredientCollectionView.dequeueReusableCell(
             withReuseIdentifier: "IngredientCollectionCell",
             for: indexPath
-        ) as? IngredientCollectionViewCell else { return UICollectionViewCell() }
+        ) as? SearchIngredientCollectionViewCell else { return UICollectionViewCell() }
         cell.configureIngredientLabel(searchIngredientViewModel.ingredientArray[indexPath.row])
         return cell
     }

@@ -12,8 +12,7 @@ final class RecipeSearchResultViewController: UIViewController {
     // MARK: - Properties
     
     @IBOutlet private weak var recipeSearchResultTableView: UITableView!
-    private var selectedRecipe: RecipeResponse?
-    var edamamResponse: EdamamResponse?
+    var recipeSearchResultViewModel = RecipeSearchResultViewModel()
     
     // MARK: - View Life Cycle
     
@@ -25,7 +24,7 @@ final class RecipeSearchResultViewController: UIViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowRecipeDetails", let recipe = selectedRecipe {
+        if segue.identifier == "ShowRecipeDetails", let recipe = recipeSearchResultViewModel.selectedRecipe {
             guard let recipeDetailsViewController = segue.destination as? RecipeDetailsViewController else { return }
             recipeDetailsViewController.recipe = recipe
             recipeDetailsViewController.openBy = .search
@@ -45,8 +44,7 @@ extension RecipeSearchResultViewController {
 
 extension RecipeSearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let edamamAPIData = edamamResponse else { return 0 }
-        return edamamAPIData.hits.count
+        return recipeSearchResultViewModel.numberOfRowsInSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -54,8 +52,9 @@ extension RecipeSearchResultViewController: UITableViewDataSource {
             withIdentifier: "RecipeCell",
             for: indexPath
         ) as? RecipeSearchResultTableViewCell,
-              let recipe = edamamResponse?.hits[indexPath.row].recipe else { return UITableViewCell() }
-        cell.configureCell(recipe: recipe)
+              let recipe = recipeSearchResultViewModel.makeRecipe(at: indexPath.row) else { return UITableViewCell() }
+        let recipeSearchResultTableViewCellViewModel = RecipeSearchResultTableViewCellViewModel(recipeResponse: recipe)
+        cell.configureCell(with: recipeSearchResultTableViewCellViewModel)
         return cell
     }
 }
@@ -64,7 +63,7 @@ extension RecipeSearchResultViewController: UITableViewDataSource {
 
 extension RecipeSearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedRecipe = edamamResponse?.hits[indexPath.row].recipe
+        recipeSearchResultViewModel.selectedRecipe = recipeSearchResultViewModel.makeRecipe(at: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "ShowRecipeDetails", sender: self)
     }
