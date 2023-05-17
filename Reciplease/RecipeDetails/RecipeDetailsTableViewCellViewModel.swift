@@ -9,7 +9,7 @@ import Foundation
 
 final class RecipeDetailsTableViewCellViewModel {
     
-    var recipeResponse: RecipeResponse
+    private var recipeResponse: RecipeResponse
     private let recipePeecker: RecipePeecking
     private let recipeWriter: RecipeWriting
     

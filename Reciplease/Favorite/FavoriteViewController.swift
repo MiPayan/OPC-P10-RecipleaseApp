@@ -27,7 +27,7 @@ final class FavoriteViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ReturnToRecipeDetails", let recipe = favoriteViewModel.selectedRecipe {
             guard let recipeDetailsViewController = segue.destination as? RecipeDetailsViewController else { return }
-            recipeDetailsViewController.recipe = recipe
+            recipeDetailsViewController.recipeDetailsViewModel.recipeResponse = recipe
             recipeDetailsViewController.openBy = .favorite
         }
     }
@@ -52,9 +52,9 @@ extension FavoriteViewController: UITableViewDataSource {
             withIdentifier: "FavoriteCell",
             for: indexPath
         ) as? FavoriteTableViewCell else { return UITableViewCell() }
-        
         let recipe = favoriteViewModel.recipes[indexPath.row]
-        cell.configureCell(recipe)
+        let favoriteTableViewCellViewModel = FavoriteTableViewCellViewModel(recipe: recipe)
+        cell.configureCell(with: favoriteTableViewCellViewModel)
         cell.deleteHandler = { [weak self] in
             guard let self = self,
                   let recipeLabel = recipe.label else { return }

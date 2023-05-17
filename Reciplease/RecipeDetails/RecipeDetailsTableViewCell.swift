@@ -37,7 +37,7 @@ final class RecipeDetailsTableViewCell: UITableViewCell {
     
     func configureCell(with viewModel: RecipeDetailsTableViewCellViewModel) {
         self.viewModel = viewModel
-        if let url = viewModel.recipeImageURL{
+        if let url = viewModel.recipeImageURL {
             recipeImageView.loadImage(url: url)
         }
         recipeImageView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]

@@ -13,7 +13,6 @@ final class RecipeDetailsViewController: UIViewController {
     
     @IBOutlet private weak var recipeDetailsTableView: UITableView!
     let recipeDetailsViewModel = RecipeDetailsViewModel()
-    var recipe: RecipeResponse?
     var openBy: OpenBy?
     
     // MARK: - View Life Cycle
@@ -32,12 +31,11 @@ extension RecipeDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let recipe = recipe else { return 1 }
-        return recipe.ingredients.count + 1
+        recipeDetailsViewModel.ingredientsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let recipe = recipe else { return UITableViewCell() }
+        guard let recipe = recipeDetailsViewModel.recipeResponse else { return UITableViewCell() }
         
         // First section.
         
@@ -46,7 +44,7 @@ extension RecipeDetailsViewController: UITableViewDataSource {
             withIdentifier: "RecipesDetailsCell",
             for: indexPath
            ) as? RecipeDetailsTableViewCell {
-            let recipeDetailsTableViewCellViewModel = RecipeDetailsTableViewCellViewModel(recipeResponse: recipeDetailsViewModel.recipeResponse)
+            let recipeDetailsTableViewCellViewModel = RecipeDetailsTableViewCellViewModel(recipeResponse: recipe)
             recipeDetailsCell.dismissDelegate = self
             recipeDetailsCell.configureCell(with: recipeDetailsTableViewCellViewModel)
             return recipeDetailsCell
@@ -57,11 +55,10 @@ extension RecipeDetailsViewController: UITableViewDataSource {
         guard let ingredientCell = recipeDetailsTableView.dequeueReusableCell(
             withIdentifier: "IngredientsCell",
             for: indexPath
-        ) as? IngredientTableViewCell else { return UITableViewCell() }
-        let ingredientText = recipe.ingredients[indexPath.row - 1].text
-        let imageString = recipe.ingredients[indexPath.row - 1].image ?? ""
-        let ingredientImage = URL(string: imageString)
-        ingredientCell.configureCell(with: ingredientImage, ingredientText: ingredientText)
+        ) as? IngredientTableViewCell,
+              let ingredient = recipeDetailsViewModel.makeIngredient(at: indexPath.row - 1) else { return UITableViewCell() }
+        let ingredientTableViewCellViewModel = IngredientTableViewCellViewModel(ingredientResponse: ingredient)
+        ingredientCell.configureCell(with: ingredientTableViewCellViewModel)
         return ingredientCell
     }
 }

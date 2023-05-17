@@ -16,23 +16,21 @@ final class FavoriteTableViewCell: UITableViewCell {
     @IBOutlet private weak var recipeLabel: UILabel!
     @IBOutlet private weak var ingredientLabel: UILabel!
     @IBOutlet private weak var detailsLabel: UILabel!
+    private var viewModel: FavoriteTableViewCellViewModel?
     var deleteHandler: (() -> Void) = {}
     
     // MARK: - Method
     
-    func configureCell(_ recipe: Recipes) {
-        guard let imageString = recipe.image,
-              let urlString = URL(string: imageString),
-              let totalTime = recipe.totalTime,
-              let calorie = recipe.calorie,
-              let yield = recipe.yield else { return }
-        let detailsText = totalTime + " min " + " • " + calorie + " kcal " + " • " + yield + " pers. "
-        recipeImageView.loadImage(url: urlString)
+    func configureCell(with viewModel: FavoriteTableViewCellViewModel) {
+        self.viewModel = viewModel
+        if let url = viewModel.recipeImage {
+            recipeImageView.loadImage(url: url)
+        }
         recipeImageView.clipsToBounds = true
         recipeImageView.layer.cornerRadius = 10
-        recipeLabel.text = recipe.label
-        ingredientLabel.text = recipe.ingredient
-        detailsLabel.text = detailsText
+        recipeLabel.text = viewModel.recipeText
+        ingredientLabel.text = viewModel.ingredientText
+        detailsLabel.text = viewModel.detailsText
     }
     
     // MARK: - IBAction Method

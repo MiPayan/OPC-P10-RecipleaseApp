@@ -13,6 +13,10 @@ final class RecipeDetailsViewModel {
     let numberOfSections = 1
         
     var ingredientsCount: Int {
-        recipeResponse?.ingredients.count ?? 0
+        (recipeResponse?.ingredients.count ?? 0) + 1
+    }
+    
+    func makeIngredient(at index: Int) -> IngredientResponse? {
+        recipeResponse?.ingredients[index]
     }
 }

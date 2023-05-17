@@ -26,7 +26,7 @@ final class RecipeSearchResultViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowRecipeDetails", let recipe = recipeSearchResultViewModel.selectedRecipe {
             guard let recipeDetailsViewController = segue.destination as? RecipeDetailsViewController else { return }
-            recipeDetailsViewController.recipe = recipe
+            recipeDetailsViewController.recipeDetailsViewModel.recipeResponse = recipe
             recipeDetailsViewController.openBy = .search
         }
     }
@@ -64,6 +64,7 @@ extension RecipeSearchResultViewController: UITableViewDataSource {
 extension RecipeSearchResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         recipeSearchResultViewModel.selectedRecipe = recipeSearchResultViewModel.makeRecipe(at: indexPath.row)
+        dump(recipeSearchResultViewModel.makeRecipe(at: indexPath.row))
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "ShowRecipeDetails", sender: self)
     }

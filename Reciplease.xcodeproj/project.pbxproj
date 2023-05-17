@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		37083CFF27E48A91004E952E /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37083CFE27E48A91004E952E /* FavoriteViewModel.swift */; };
+		370D29292A149A500049A6D9 /* IngredientTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D29282A149A500049A6D9 /* IngredientTableViewCellViewModel.swift */; };
+		370D292D2A14A8F20049A6D9 /* FavoriteTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D292C2A14A8F20049A6D9 /* FavoriteTableViewCellViewModel.swift */; };
 		3710D45C27FC469D007AC389 /* SearchIngredientViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3710D45B27FC469D007AC389 /* SearchIngredientViewModelTests.swift */; };
 		3717B270281AD5C20071D743 /* RecipeServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3717B26F281AD5C20071D743 /* RecipeServiceMock.swift */; };
 		3728ABFF26C3DC2A00E13D50 /* HitResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3728ABFE26C3DC2A00E13D50 /* HitResponse.swift */; };
@@ -88,6 +90,8 @@
 
 /* Begin PBXFileReference section */
 		37083CFE27E48A91004E952E /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		370D29282A149A500049A6D9 /* IngredientTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		370D292C2A14A8F20049A6D9 /* FavoriteTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		3710D45B27FC469D007AC389 /* SearchIngredientViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIngredientViewModelTests.swift; sourceTree = "<group>"; };
 		3717B26F281AD5C20071D743 /* RecipeServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeServiceMock.swift; sourceTree = "<group>"; };
 		3728ABFE26C3DC2A00E13D50 /* HitResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitResponse.swift; sourceTree = "<group>"; };
@@ -364,10 +368,11 @@
 			children = (
 				37D6E8B92A13EB3F0002FDA2 /* RecipeDetailsViewModel.swift */,
 				37D6E8B42A13CBE40002FDA2 /* RecipeDetailsTableViewCellViewModel.swift */,
+				370D29282A149A500049A6D9 /* IngredientTableViewCellViewModel.swift */,
+				37BB3E8226D7CFDF005ABD6B /* RecipeDetailsViewController.swift */,
 				3740F3C426E0FE140047193D /* RecipeDetailsTableViewCell.swift */,
 				37FBD08826DFC13500B7AE1F /* HealthInformationCollectionViewCell.swift */,
 				37B4EA2F27045A7400677B3E /* IngredientTableViewCell.swift */,
-				37BB3E8226D7CFDF005ABD6B /* RecipeDetailsViewController.swift */,
 			);
 			path = RecipeDetails;
 			sourceTree = "<group>";
@@ -383,9 +388,10 @@
 		37D6E8AF2A1386300002FDA2 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				378560E52721A24300EC68CA /* FavoriteTableViewCell.swift */,
 				37083CFE27E48A91004E952E /* FavoriteViewModel.swift */,
+				370D292C2A14A8F20049A6D9 /* FavoriteTableViewCellViewModel.swift */,
 				37AC239426D8D2620058F834 /* FavoriteViewController.swift */,
+				378560E52721A24300EC68CA /* FavoriteTableViewCell.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -590,6 +596,7 @@
 				37BBBC7F26B1B5D600497DE8 /* RecipeSearchResultViewController.swift in Sources */,
 				373D9C57274FC16800E85637 /* RecipeService.swift in Sources */,
 				372D11A7286AF3FD0062BA88 /* RecipeServiceProtocol.swift in Sources */,
+				370D292D2A14A8F20049A6D9 /* FavoriteTableViewCellViewModel.swift in Sources */,
 				37B5EC5B2850A03400B7A423 /* ViewSetting.swift in Sources */,
 				37F7632826E0DB3700F80AB4 /* RandomBorderColor+CGColor.swift in Sources */,
 				3779FC892858795900D87091 /* Reciplease.xcdatamodeld in Sources */,
@@ -602,6 +609,7 @@
 				37BB3E8326D7CFDF005ABD6B /* RecipeDetailsViewController.swift in Sources */,
 				37AC239826D8E4CE0058F834 /* RoundedButtonSetting.swift in Sources */,
 				37BE69E926D3DD6D002EA74B /* RecipeSearchResultTableViewCell.swift in Sources */,
+				370D29292A149A500049A6D9 /* IngredientTableViewCellViewModel.swift in Sources */,
 				37AC239526D8D2620058F834 /* FavoriteViewController.swift in Sources */,
 				372D11B2286B33A90062BA88 /* RecipeSearchResultViewModel.swift in Sources */,
 				37A0231A2869ACF500DEFF86 /* OpenBy.swift in Sources */,
